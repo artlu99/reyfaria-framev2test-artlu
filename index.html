@@ -3,14 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrusel Farcaster</title>
   
-  <!-- Metadatos específicos para Farcaster -->
-  <meta property="fc:frame" content="vNext">
-  <meta property="fc:frame:image" content="https://e0.pxfuel.com/wallpapers/959/721/desktop-wallpaper-1080x1080-red.jpg">
-  <meta property="fc:frame:button:1" content="Siguiente">
-  <meta property="fc:frame:button:2" content="Anterior">
+  <!-- Metadatos para Frames V2 de Farcaster -->
+  <script type="application/json" id="frame-metadata">
+  {
+    "version": "next",
+    "imageUrl": "https://framev2test.vercel.app/imagen-3x2.jpg",
+    "button": {
+      "title": "Abrir Carrusel",
+      "action": {
+        "type": "launch_frame",
+        "name": "Carrusel Farcaster",
+        "url": "https://framev2test.vercel.app/",
+        "splashImageUrl": "https://framev2test.vercel.app/splash-200x200.jpg",
+        "splashBackgroundColor": "#ffffff"
+      }
+    }
+  }
+  </script>
   
-  <title>Mi Frame V2</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -32,7 +44,7 @@
       border-radius: 10px;
       position: relative;
       cursor: grab;
-      user-select: none; /* Evita la selección de texto/imágenes */
+      user-select: none;
     }
     .carousel-inner {
       display: flex;
@@ -43,7 +55,7 @@
       height: 500px;
       object-fit: cover;
       flex-shrink: 0;
-      pointer-events: none; /* Evita que las imágenes interfieran con el arrastre */
+      pointer-events: none;
     }
     .carousel-btn {
       background: #4a90e2;
@@ -82,7 +94,7 @@
   </style>
 </head>
 <body>
-  <h1>Mi Frame V2</h1>
+  <h1>Mi Carrusel Farcaster</h1>
   
   <div class="carousel-container">
     <button class="carousel-btn" id="prevButton" disabled>‹</button>
@@ -108,28 +120,17 @@
     const totalImages = images.length;
     let currentIndex = 0;
 
-    // Actualizar estado inicial
     updateControls();
 
     function updateControls() {
-      // Actualizar botones
       prevButton.disabled = currentIndex === 0;
       nextButton.disabled = currentIndex === totalImages - 1;
-      
-      // Actualizar contador
       counter.textContent = `${currentIndex + 1}/${totalImages}`;
-      
-      // Mostrar y ocultar contador
       counter.classList.add('show-counter');
-      setTimeout(() => {
-        counter.classList.remove('show-counter');
-      }, 2000); // Desaparece después de 2 segundos
-      
-      // Mover carrusel
+      setTimeout(() => counter.classList.remove('show-counter'), 2000);
       carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
-    // Eventos de botones
     nextButton.addEventListener('click', () => {
       if (currentIndex < totalImages - 1) {
         currentIndex++;
@@ -144,58 +145,31 @@
       }
     });
 
-    // Eventos de deslizamiento táctil
-    let touchStartX = 0;
-    let touchEndX = 0;
+    let isDragging = false;
+    let startX = 0;
+    let endX = 0;
     const carousel = document.querySelector('.carousel');
 
-    carousel.addEventListener('touchstart', e => {
-      touchStartX = e.touches[0].clientX;
-    });
-
-    carousel.addEventListener('touchmove', e => {
-      touchEndX = e.touches[0].clientX;
-    });
-
-    carousel.addEventListener('touchend', () => {
-      const diff = touchStartX - touchEndX;
-      if (Math.abs(diff) > 50) { // Sensibilidad del deslizamiento
-        if (diff > 0 && currentIndex < totalImages - 1) {
-          currentIndex++; // Deslizar a la derecha
-        } else if (diff < 0 && currentIndex > 0) {
-          currentIndex--; // Deslizar a la izquierda
-        }
-        updateControls();
-      }
-    });
-
-    // Eventos de deslizamiento con mouse (para pruebas en escritorio)
-    let isDragging = false;
-    let mouseStartX = 0;
-    let mouseEndX = 0;
-
-    carousel.addEventListener('mousedown', e => {
+    carousel.addEventListener('mousedown', (e) => {
       isDragging = true;
-      mouseStartX = e.clientX;
-      carousel.style.cursor = 'grabbing'; // Cambia el cursor al arrastrar
+      startX = e.clientX;
+      carousel.style.cursor = 'grabbing';
     });
 
-    carousel.addEventListener('mousemove', e => {
-      if (isDragging) {
-        mouseEndX = e.clientX;
-      }
+    carousel.addEventListener('mousemove', (e) => {
+      if (isDragging) endX = e.clientX;
     });
 
     carousel.addEventListener('mouseup', () => {
       if (isDragging) {
         isDragging = false;
-        carousel.style.cursor = 'grab'; // Restaura el cursor
-        const diff = mouseStartX - mouseEndX;
-        if (Math.abs(diff) > 50) { // Sensibilidad del deslizamiento
+        carousel.style.cursor = 'grab';
+        const diff = startX - endX;
+        if (Math.abs(diff) > 50) {
           if (diff > 0 && currentIndex < totalImages - 1) {
-            currentIndex++; // Deslizar a la derecha
+            currentIndex++;
           } else if (diff < 0 && currentIndex > 0) {
-            currentIndex--; // Deslizar a la izquierda
+            currentIndex--;
           }
           updateControls();
         }
@@ -205,13 +179,8 @@
     carousel.addEventListener('mouseleave', () => {
       if (isDragging) {
         isDragging = false;
-        carousel.style.cursor = 'grab'; // Restaura el cursor si el mouse sale del carrusel
+        carousel.style.cursor = 'grab';
       }
-    });
-
-    // Evitar la selección de texto/imágenes durante el arrastre
-    carousel.addEventListener('selectstart', e => {
-      e.preventDefault(); // Evita la selección de texto/imágenes
     });
   </script>
 </body>
