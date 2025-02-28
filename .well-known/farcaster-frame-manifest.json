@@ -1,8 +1,9 @@
 {
   "version": "vNext",
-  "image": "https://e0.pxfuel.com/wallpapers/959/721/desktop-wallpaper-1080x1080-red.jpg",
+  "image": "https://wallpaperaccess.com/full/1940042.jpg",
   "buttons": [
     {"label": "Siguiente", "action": "post"},
     {"label": "Anterior", "action": "post"}
-  ]
+  ],
+  "post_url": "https://framev2test.vercel.app//api/frame-action"
 }
