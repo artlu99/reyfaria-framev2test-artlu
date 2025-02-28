@@ -13,7 +13,7 @@ app.post('/frame-action', (req, res) => {
   if (buttonIndex === 1) {
     res.json({
       type: 'frame',
-      image: 'https://e0.pxfuel.com/wallpapers/284/665/desktop-wallpaper-1080x1080-pixels.jpg',
+      image: 'https://www.loscauces.com/wp-content/uploads/2024/07/IMAGENES-SEO-PORTADA-1200-x-800-px.jpg',
       buttons: [
         {"label": "Siguiente", "action": "post"},
         {"label": "Anterior", "action": "post"}
@@ -24,7 +24,7 @@ app.post('/frame-action', (req, res) => {
   else if (buttonIndex === 2) {
     res.json({
       type: 'frame',
-      image: 'https://e0.pxfuel.com/wallpapers/228/320/desktop-wallpaper-1080x1080-pixels.jpg',
+      image: 'https://wallpaperaccess.com/full/1940042.jpg',
       buttons: [
         {"label": "Siguiente", "action": "post"},
         {"label": "Anterior", "action": "post"}
