@@ -158,56 +158,154 @@ app.get('/', (req, res) => {
       </div>
 
       <script>
-        const carouselInner = document.querySelector('.carousel-inner');
-        const prevButton = document.getElementById('prevButton');
-        const nextButton = document.getElementById('nextButton');
-        const counter = document.getElementById('counter');
-        const images = document.querySelectorAll('.carousel img');
-        const totalImages = ${totalImages};
-        let currentIndex = ${currentImageIndex};
+  const carouselInner = document.querySelector('.carousel-inner');
+  const prevButton = document.getElementById('prevButton');
+  const nextButton = document.getElementById('nextButton');
+  const counter = document.getElementById('counter');
+  const images = document.querySelectorAll('.carousel img');
+  const totalImages = ${totalImages};
+  let currentIndex = ${currentImageIndex};
 
-        // Actualizar estado inicial
-        updateControls();
+  // Actualizar estado inicial
+  updateControls();
 
-        function updateControls() {
-          // Actualizar botones
-          prevButton.disabled = currentIndex === 0;
-          nextButton.disabled = currentIndex === totalImages - 1;
-          
-          // Actualizar contador
-          counter.textContent = \`\${currentIndex + 1}/\${totalImages}\`;
-          
-          // Mostrar y ocultar contador
-          counter.classList.add('show-counter');
-          setTimeout(() => {
-            counter.classList.remove('show-counter');
-          }, 2000); // Desaparece después de 2 segundos
-          
-          // Mover carrusel
-          carouselInner.style.transform = \`translateX(-\${currentIndex * 100}%)\`;
+  function updateControls() {
+    // Actualizar botones
+    prevButton.disabled = currentIndex === 0;
+    nextButton.disabled = currentIndex === totalImages - 1;
+    
+    // Actualizar contador
+    counter.textContent = \`\${currentIndex + 1}/\${totalImages}\`;
+    
+    // Mostrar y ocultar contador
+    counter.classList.add('show-counter');
+    setTimeout(() => {
+      counter.classList.remove('show-counter');
+    }, 2000); // Desaparece después de 2 segundos
+    
+    // Mover carrusel
+    carouselInner.style.transform = \`translateX(-\${currentIndex * 100}%)\`;
+  }
+
+  // Eventos de botones
+  nextButton.addEventListener('click', () => {
+    if (currentIndex < totalImages - 1) {
+      currentIndex++;
+      updateControls();
+      
+      // Update server state (optional)
+      fetch('/api/update-carousel?index=' + currentIndex, { method: 'GET' });
+    }
+  });
+
+  prevButton.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateControls();
+      
+      // Update server state (optional)
+      fetch('/api/update-carousel?index=' + currentIndex, { method: 'GET' });
+    }
+  });
+
+  // Eventos de deslizamiento táctil y con mouse
+  let isDragging = false;
+  let startX = 0;
+  let currentTranslate = 0;
+
+  const carousel = document.querySelector('.carousel');
+
+  // Evento para iniciar el arrastre
+  carousel.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX;
+    carousel.style.cursor = 'grabbing';
+  });
+
+  // Evento para mover durante el arrastre
+  carousel.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const currentX = e.clientX;
+    const diff = startX - currentX;
+    currentTranslate = -currentIndex * 100 - (diff / carousel.offsetWidth) * 100;
+    carouselInner.style.transform = \`translateX(\${currentTranslate}%)\`;
+  });
+
+  // Evento para finalizar el arrastre
+  carousel.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    carousel.style.cursor = 'grab';
+
+    const threshold = 0.2; // Sensibilidad del deslizamiento (20% del ancho de la imagen)
+    const movedPercentage = Math.abs(currentTranslate + currentIndex * 100) / 100;
+
+    if (movedPercentage > threshold) {
+      if (currentTranslate < -currentIndex * 100) {
+        // Deslizar a la derecha (siguiente imagen)
+        if (currentIndex < images.length - 1) {
+          currentIndex++;
         }
+      } else {
+        // Deslizar a la izquierda (imagen anterior)
+        if (currentIndex > 0) {
+          currentIndex--;
+        }
+      }
+    }
 
-        // Eventos de botones
-        nextButton.addEventListener('click', () => {
-          if (currentIndex < totalImages - 1) {
-            currentIndex++;
-            updateControls();
-            
-            // Update server state (optional)
-            fetch('/api/update-carousel?index=' + currentIndex, { method: 'GET' });
-          }
-        });
+    // Actualizar la posición del carrusel
+    updateControls();
+  });
 
-        prevButton.addEventListener('click', () => {
-          if (currentIndex > 0) {
-            currentIndex--;
-            updateControls();
-            
-            // Update server state (optional)
-            fetch('/api/update-carousel?index=' + currentIndex, { method: 'GET' });
-          }
-        });
-      </script>
+  // Evento para evitar que el mouse salga del carrusel durante el arrastre
+  carousel.addEventListener('mouseleave', () => {
+    if (isDragging) {
+      isDragging = false;
+      carousel.style.cursor = 'grab';
+      updateControls();
+    }
+  });
+
+  // Eventos táctiles para dispositivos móviles
+  carousel.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startX = e.touches[0].clientX;
+  });
+
+  carousel.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const currentX = e.touches[0].clientX;
+    const diff = startX - currentX;
+    currentTranslate = -currentIndex * 100 - (diff / carousel.offsetWidth) * 100;
+    carouselInner.style.transform = \`translateX(\${currentTranslate}%)\`;
+  });
+
+  carousel.addEventListener('touchend', () => {
+    if (!isDragging) return;
+    isDragging = false;
+
+    const threshold = 0.2; // Sensibilidad del deslizamiento (20% del ancho de la imagen)
+    const movedPercentage = Math.abs(currentTranslate + currentIndex * 100) / 100;
+
+    if (movedPercentage > threshold) {
+      if (currentTranslate < -currentIndex * 100) {
+        // Deslizar a la derecha (siguiente imagen)
+        if (currentIndex < images.length - 1) {
+          currentIndex++;
+        }
+      } else {
+        // Deslizar a la izquierda (imagen anterior)
+        if (currentIndex > 0) {
+          currentIndex--;
+        }
+      }
+    }
+
+    // Actualizar la posición del carrusel
+    updateControls();
+  });
+</script>
     </body>
     </html>
   `;
