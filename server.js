@@ -9,9 +9,9 @@ app.use(express.json());
 // Estado actual de la imagen (en una aplicación real, esto se almacenaría en una base de datos o sesión)
 let currentImageIndex = 0;
 const images = [
-  "https://wallpaperaccess.com/full/1940042.jpg",
-  "https://www.loscauces.com/wp-content/uploads/2024/07/IMAGENES-SEO-PORTADA-1200-x-800-px.jpg",
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Lufthansa_Airbus_A380-800_D-AIMG.jpg/1200px-Lufthansa_Airbus_A380-800_D-AIMG.jpg"
+  "https://www.interfaz.com.mx/wp-content/uploads/2020/07/600x400.png",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyijE4-STaj_SWO-vGJgMgazKm0J8UmeIkgA&s",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTol1j-strWTlqsRoZ70gkaewGMb09lgxVXB3D20rnPuzYJt73-iVhOKaqgH3l_pOqNQzE&usqp=CAU"
 ];
 
 // Servir archivos estáticos desde la carpeta 'public'
