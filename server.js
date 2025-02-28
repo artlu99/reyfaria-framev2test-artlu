@@ -72,74 +72,74 @@ app.get('/', (req, res) => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Carrusel Farcaster</title>
       <style>
-        body {
-          font-family: Arial, sans-serif;
-          text-align: center;
-          margin: 50px auto;
-          max-width: 800px;
-          padding: 20px;
-        }
-        .carousel-container {
-          display: flex;
-          align-items: center;
-          gap: 20px;
-          margin: 30px 0;
-        }
-        .carousel {
-          flex: 1;
-          overflow: hidden;
-          border: 2px solid #ddd;
-          border-radius: 10px;
-          position: relative;
-          cursor: grab;
-          user-select: none;
-        }
-        .carousel-inner {
-          display: flex;
-          transition: transform 0.5s ease;
-        }
-        .carousel img {
-          width: 100%;
-          height: 500px;
-          object-fit: cover;
-          flex-shrink: 0;
-          pointer-events: none;
-        }
-        .carousel-btn {
-          background: #4a90e2;
-          color: white;
-          border: none;
-          padding: 15px 25px;
-          border-radius: 50%;
-          cursor: pointer;
-          font-size: 24px;
-          transition: all 0.3s ease;
-        }
-        .carousel-btn:hover {
-          background: #357abd;
-          transform: scale(1.1);
-        }
-        .carousel-btn:disabled {
-          background: #cccccc;
-          cursor: not-allowed;
-          transform: none;
-        }
-        .image-counter {
-          position: absolute;
-          top: 20px;
-          right: 20px;
-          background: rgba(0, 0, 0, 0.7);
-          color: white;
-          padding: 8px 16px;
-          border-radius: 20px;
-          font-size: 14px;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-        .show-counter {
-          opacity: 1;
-        }
-      </style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 50px auto;
+    max-width: 800px;
+    padding: 20px;
+  }
+  .carousel-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 30px 0;
+  }
+  .carousel {
+    flex: 1;
+    overflow: hidden;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    position: relative;
+    cursor: grab;
+    user-select: none;
+  }
+  .carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+  .carousel img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+  .carousel-btn {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    transition: all 0.3s ease;
+  }
+  .carousel-btn:hover {
+    background: #357abd;
+    transform: scale(1.1);
+  }
+  .carousel-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .image-counter {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .show-counter {
+    opacity: 1;
+  }
+</style>
     </head>
     <body>
       <h1>Mi Carrusel Farcaster</h1>
