@@ -326,13 +326,12 @@ app.get('/', (req, res) => {
     </body>
     </html>
   `;
-
-  res.setHeader("Content-Type", "text/html");
+  res.setHeader('Content-Type', 'text/html');
   res.send(html);
 });
 
 // Endpoint to update carousel state for web visitors
-app.get("/api/update-carousel", (req, res) => {
+app.get('/api/update-carousel', (req, res) => {
   const index = parseInt(req.query.index, 10);
   if (!isNaN(index) && index >= 0 && index < images.length) {
     currentImageIndex = index;
@@ -341,7 +340,7 @@ app.get("/api/update-carousel", (req, res) => {
 });
 
 // Handle frame actions for Farcaster
-app.post("/api/frame-action", (req, res) => {
+app.post('/api/frame-action', (req, res) => {
   // Get the button index that was clicked (1-based)
   const buttonIndex = req.body?.untrustedData?.buttonIndex || 0;
 
@@ -353,10 +352,10 @@ app.post("/api/frame-action", (req, res) => {
     // "Anterior" button
     currentImageIndex = Math.max(currentImageIndex - 1, 0);
   }
-
+  
   // Get the current image
   const currentImage = images[currentImageIndex];
-
+  
   // Build the response HTML
   const html = `
     <!DOCTYPE html>
@@ -379,13 +378,13 @@ app.post("/api/frame-action", (req, res) => {
     </body>
     </html>
   `;
-
-  res.setHeader("Content-Type", "text/html");
+  
+  res.setHeader('Content-Type', 'text/html');
   res.send(html);
 });
 
 // Serve .well-known directory for Farcaster verification
-app.use("/.well-known", express.static(path.join(__dirname, ".well-known")));
+app.use('/.well-known', express.static(path.join(__dirname, '.well-known')));
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
