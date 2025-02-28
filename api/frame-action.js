@@ -1,17 +1,10 @@
-export default function handler(req, res) {
-  if (req.method === "POST") {
-    const { buttonIndex } = req.body;
+const express = require('express');
+const app = express();
 
-    if (buttonIndex === 1) {
-      return res.status(200).json({
-        message: "Botón 1 presionado correctamente",
-      });
-    }
+app.use(express.json());
 
-    return res.status(200).json({
-      message: "Acción recibida pero sin un botón específico",
-    });
-  }
+app.post('/api/frame-action', (req, res) => {
+  res.json({ message: "Frame action ejecutada correctamente." });
+});
 
-  return res.status(404).json({ error: "Endpoint no encontrado" });
-}
+module.exports = app;
