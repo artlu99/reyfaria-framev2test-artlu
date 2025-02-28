@@ -2,8 +2,8 @@
   "version": "vNext",
   "image": "https://wallpaperaccess.com/full/1940042.jpg",
   "buttons": [
-    {"label": "Siguiente", "action": "post"},
-    {"label": "Anterior", "action": "post"}
+    {"label": "Siguiente"},
+    {"label": "Anterior"}
   ],
   "post_url": "https://framev2test.vercel.app/api/frame-action"
 }
