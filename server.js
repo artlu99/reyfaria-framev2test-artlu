@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000; // Usa el puerto proporcionado por Vercel
+const port = process.env.PORT || 3000;
 
 // Middleware para parsear el cuerpo de las solicitudes en formato JSON
 app.use(express.json());
