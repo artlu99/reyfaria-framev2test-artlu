@@ -52,10 +52,13 @@ app.get('/', (req, res) => {
         <meta property="fc:frame:post_url" content="https://framev2test.vercel.app/api/frame-action">
         
         <title>Carrusel Farcaster</title>
+        <script src="https://cdn.jsdelivr.net/npm/@farcaster/frame-sdk/dist/index.min.js"></script>
       </head>
       <body>
         <h1>Farcaster Frame Carousel</h1>
-      </body>
+        <script>
+          frame.sdk.actions.ready();
+        </script>
       </html>
     `;
     
@@ -309,13 +312,13 @@ app.get('/', (req, res) => {
     </body>
     </html>
   `;
-  
-  res.setHeader('Content-Type', 'text/html');
+
+  res.setHeader("Content-Type", "text/html");
   res.send(html);
 });
 
 // Endpoint to update carousel state for web visitors
-app.get('/api/update-carousel', (req, res) => {
+app.get("/api/update-carousel", (req, res) => {
   const index = parseInt(req.query.index, 10);
   if (!isNaN(index) && index >= 0 && index < images.length) {
     currentImageIndex = index;
@@ -324,10 +327,10 @@ app.get('/api/update-carousel', (req, res) => {
 });
 
 // Handle frame actions for Farcaster
-app.post('/api/frame-action', (req, res) => {
+app.post("/api/frame-action", (req, res) => {
   // Get the button index that was clicked (1-based)
   const buttonIndex = req.body?.untrustedData?.buttonIndex || 0;
-  
+
   // Update the current index based on button click
   if (buttonIndex === 1) {
     // "Siguiente" button
@@ -336,10 +339,10 @@ app.post('/api/frame-action', (req, res) => {
     // "Anterior" button
     currentImageIndex = Math.max(currentImageIndex - 1, 0);
   }
-  
+
   // Get the current image
   const currentImage = images[currentImageIndex];
-  
+
   // Build the response HTML
   const html = `
     <!DOCTYPE html>
@@ -362,13 +365,13 @@ app.post('/api/frame-action', (req, res) => {
     </body>
     </html>
   `;
-  
-  res.setHeader('Content-Type', 'text/html');
+
+  res.setHeader("Content-Type", "text/html");
   res.send(html);
 });
 
 // Serve .well-known directory for Farcaster verification
-app.use('/.well-known', express.static(path.join(__dirname, '.well-known')));
+app.use("/.well-known", express.static(path.join(__dirname, ".well-known")));
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
