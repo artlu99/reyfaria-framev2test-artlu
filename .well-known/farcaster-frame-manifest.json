@@ -5,5 +5,5 @@
     {"label": "Siguiente", "action": "post"},
     {"label": "Anterior", "action": "post"}
   ],
-  "post_url": "https://framev2test.vercel.app//api/frame-action"
+  "post_url": "https://framev2test.vercel.app/api/frame-action"
 }
