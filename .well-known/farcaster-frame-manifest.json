@@ -1,8 +1,8 @@
 {
-    "version": "vNext",
-    "image": "https://e0.pxfuel.com/wallpapers/959/721/desktop-wallpaper-1080x1080-red.jpg",
-    "buttons": [
-      {"label": "Siguiente", "action": "post"},
-      {"label": "Anterior", "action": "post"}
-    ]
-  }
+  "version": "vNext",
+  "image": "https://e0.pxfuel.com/wallpapers/959/721/desktop-wallpaper-1080x1080-red.jpg",
+  "buttons": [
+    {"label": "Siguiente", "action": "post"},
+    {"label": "Anterior", "action": "post"}
+  ]
+}
