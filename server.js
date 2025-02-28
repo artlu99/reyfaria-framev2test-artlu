@@ -326,6 +326,7 @@ app.get('/', (req, res) => {
     </body>
     </html>
   `;
+  
   res.setHeader('Content-Type', 'text/html');
   res.send(html);
 });
@@ -343,7 +344,7 @@ app.get('/api/update-carousel', (req, res) => {
 app.post('/api/frame-action', (req, res) => {
   // Get the button index that was clicked (1-based)
   const buttonIndex = req.body?.untrustedData?.buttonIndex || 0;
-
+  
   // Update the current index based on button click
   if (buttonIndex === 1) {
     // "Siguiente" button
