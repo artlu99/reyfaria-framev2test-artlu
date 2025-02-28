@@ -3,6 +3,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 const path = require('path');
 
+const APP_URL = "https://framev2test.vercel.app";
+
 // Para manejar JSON en las solicitudes
 app.use(express.json());
 
@@ -37,6 +39,22 @@ app.get('/', (req, res) => {
 
   if (isFarcasterRequest) {
     // Respuesta para Farcaster
+
+    const frame = {
+      version: "next",
+      imageUrl: currentImage,
+      button: {
+        title: "Lanzar",
+        action: {
+          type: "launch_frame",
+          name: "Carrusel Farcaster",
+          url: `${APP_URL}/`,
+          splashImageUrl: `${APP_URL}/splash.png`,
+          splashBackgroundColor: "#f7f7f7",
+        },
+      },
+    };
+
     const html = `
       <!DOCTYPE html>
       <html lang="es">
@@ -45,12 +63,7 @@ app.get('/', (req, res) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Metadatos del Frame de Farcaster -->
-        <meta property="fc:frame" content="vNext">
-        <meta property="fc:frame:image" content="${currentImage}">
-        <meta property="fc:frame:button:1" content="Siguiente">
-        <meta property="fc:frame:button:2" content="Anterior">
-        <meta property="fc:frame:post_url" content="https://framev2test.vercel.app/api/frame-action">
-        
+        <meta property="fc:frame" content="${JSON.stringify(frame).replace(/"/g, "&quot;")}">        
         <title>Carrusel Farcaster</title>
         <script src="https://cdn.jsdelivr.net/npm/@farcaster/frame-sdk/dist/index.min.js"></script>
       </head>
@@ -59,6 +72,7 @@ app.get('/', (req, res) => {
         <script>
           frame.sdk.actions.ready();
         </script>
+      </body>
       </html>
     `;
     
