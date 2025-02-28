@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
 
     const frame = {
       version: "next",
-      imageUrl: currentImage,
+      imageUrl: "https://wallpaperaccess.com/full/1940042.jpg",
       button: {
         title: "Lanzar",
         action: {
